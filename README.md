@@ -154,7 +154,7 @@ id,description,category,amount,date,notes
 - ✅ Input validation di form
 - ✅ Comments & JavaDoc
 
-##  Tim Pengembang
+##  Anggota Kelompok
 
 - **[Sayyi Zaidan Akmal]** - [202410370110517]
 - **[Erlin Mariska]** - [202410370110514]
@@ -163,6 +163,3 @@ id,description,category,amount,date,notes
 
 Project ini dibuat untuk memenuhi **Ujian Akhir Praktikum Pemrograman Lanjut** Universitas Muhammadiyah Malang.
 
----
-
-⭐ Jika project ini membantu, jangan lupa kasih star!
