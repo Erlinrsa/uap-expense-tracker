@@ -61,24 +61,7 @@ UAP/
 └── README.md
 ```
 
-##  Cara Menjalankan
-
-### 1. Clone Repository
-```bash
-git clone https://github.com/username/expense-tracker-uap.git
-cd expense-tracker-uap
-```
-
-### 2. Compile & Run (Manual)
-```bash
-# Compile
-javac -d bin -sourcepath src/main/java src/main/java/org/example/App.java
-
-# Run
-java -cp bin org.example.App
-```
-
-### 3. Menggunakan IDE
+### Menggunakan IDE
 1. **IntelliJ IDEA**:
     - Open Project → Pilih folder project
     - Klik kanan `App.java` → Run 'App.main()'
@@ -171,7 +154,7 @@ id,description,category,amount,date,notes
 - ✅ Input validation di form
 - ✅ Comments & JavaDoc
 
-##  Tim Pengembang
+##  Anggota Kelompok
 
 - **[Sayyi Zaidan Akmal]** - [202410370110517]
 - **[Erlin Mariska]** - [202410370110514]
@@ -180,6 +163,3 @@ id,description,category,amount,date,notes
 
 Project ini dibuat untuk memenuhi **Ujian Akhir Praktikum Pemrograman Lanjut** Universitas Muhammadiyah Malang.
 
----
-
-⭐ Jika project ini membantu, jangan lupa kasih star!
