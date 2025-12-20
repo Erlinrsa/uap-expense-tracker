@@ -11,6 +11,7 @@ import java.util.List;
  * List Panel - Halaman 2
  * Modul 6: GUI - JTable, JTextField, JButton
  * Modul 4: Sorting & Filtering
+ * FIXED: ComboBox dropdown color issue & Table header alignment
  */
 public class ListPanel extends JPanel {
     private MainFrame mainFrame;
@@ -21,7 +22,7 @@ public class ListPanel extends JPanel {
     private DefaultTableModel tableModel;
     private JComboBox<String> categoryFilter;
 
-    // Colors
+    // Colors - ORIGINAL WARM TONES
     private static final Color BG_COLOR = new Color(85, 66, 61);
     private static final Color PRIMARY = new Color(255, 192, 173);
     private static final Color TEXT = new Color(255, 243, 236);
@@ -91,15 +92,39 @@ public class ListPanel extends JPanel {
         filterLabel.setForeground(TEXT);
         filterLabel.setFont(new Font("Poppins", Font.PLAIN, 14));
 
+        // FIXED ComboBox with proper dropdown colors
         categoryFilter = new JComboBox<>(CATEGORIES);
         categoryFilter.setFont(new Font("Poppins", Font.PLAIN, 13));
-        categoryFilter.setForeground(new Color(39, 28, 25)); // ← TEXT HITAM
-        categoryFilter.setPreferredSize(new Dimension(200, 40)); // ← TINGGI 40px
+        categoryFilter.setForeground(new Color(39, 28, 25)); // Dark text
+        categoryFilter.setPreferredSize(new Dimension(200, 40));
         categoryFilter.setBackground(new Color(255, 243, 236, 25));
         categoryFilter.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(PRIMARY, 2),
                 BorderFactory.createEmptyBorder(5, 10, 5, 10)
         ));
+
+        // FIXED: Custom renderer untuk dropdown
+        categoryFilter.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value,
+                                                          int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+                if (isSelected) {
+                    setBackground(ACCENT);
+                    setForeground(new Color(39, 28, 25));
+                } else {
+                    setBackground(new Color(255, 243, 236));
+                    setForeground(new Color(39, 28, 25));
+                }
+
+                setBorder(BorderFactory.createEmptyBorder(8, 12, 8, 12));
+                setFont(new Font("Poppins", Font.PLAIN, 13));
+
+                return this;
+            }
+        });
+
         categoryFilter.addActionListener(e -> performFilter());
 
         JButton sortDateBtn = createButton("📅 Terbaru", ACCENT);
@@ -146,11 +171,33 @@ public class ListPanel extends JPanel {
         table.setSelectionBackground(new Color(255, 192, 173, 50));
         table.setSelectionForeground(TEXT);
 
-        // Header style
+        // Header style dengan alignment CENTER
         JTableHeader header = table.getTableHeader();
         header.setFont(new Font("Poppins", Font.BOLD, 14));
         header.setBackground(new Color(255, 192, 173, 80));
         header.setForeground(new Color(39, 28, 25));
+
+        // FIXED: Set header renderer untuk center alignment
+        DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) header.getDefaultRenderer();
+        headerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        // Set cell alignment untuk setiap kolom
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        centerRenderer.setForeground(TEXT);
+        centerRenderer.setBackground(new Color(255, 243, 236, 15));
+
+        // Apply center alignment ke semua kolom kecuali Deskripsi (biar left)
+        table.getColumnModel().getColumn(1).setCellRenderer(new DefaultTableCellRenderer() {
+            {
+                setForeground(TEXT);
+                setBackground(new Color(255, 243, 236, 15));
+            }
+        }); // Deskripsi - left align
+        table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer); // Kategori
+        table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer); // Tanggal
+        table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer); // Jumlah
 
         // Hide ID column
         table.getColumnModel().getColumn(0).setMinWidth(0);
@@ -172,7 +219,7 @@ public class ListPanel extends JPanel {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 0));
         panel.setBackground(BG_COLOR);
 
-        JButton backBtn = createButton("⬅️ Kembali ke Dashboard", new Color(149, 86, 161));
+        JButton backBtn = createButton("⬅Kembali ke Dashboard", new Color(149, 86, 161));
         backBtn.addActionListener(e -> mainFrame.showPanel(MainFrame.DASHBOARD));
 
         panel.add(backBtn);
@@ -208,7 +255,7 @@ public class ListPanel extends JPanel {
                     expense.getCategory(),
                     expense.getFormattedDate(),
                     expense.getFormattedAmount(),
-                    "action" // Placeholder for action buttons
+                    "action"
             };
             tableModel.addRow(row);
         }
@@ -248,8 +295,8 @@ public class ListPanel extends JPanel {
                                                        boolean isSelected, boolean hasFocus, int row, int column) {
             removeAll();
 
-            JButton editBtn = new JButton("✏️");
-            JButton deleteBtn = new JButton("🗑️");
+            JButton editBtn = new JButton("✏");
+            JButton deleteBtn = new JButton("🗑");
 
             editBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 16));
             deleteBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 16));
@@ -273,8 +320,8 @@ public class ListPanel extends JPanel {
 
             panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-            editBtn = new JButton("✏️");
-            deleteBtn = new JButton("🗑️");
+            editBtn = new JButton("✏");
+            deleteBtn = new JButton("🗑");
 
             editBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 16));
             deleteBtn.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 16));
