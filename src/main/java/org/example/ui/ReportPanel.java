@@ -281,7 +281,7 @@ public class ReportPanel extends JPanel {
 
         JButton txtBtn = createButton("📄 Export ke TXT", PRIMARY);
         JButton csvBtn = createButton("📊 Export ke CSV", TERTIARY);
-        JButton backBtn = createButton("⬅️ Kembali", new Color(149, 86, 161));
+        JButton backBtn = createButton("⬅Kembali", new Color(149, 86, 161));
 
         txtBtn.addActionListener(e -> exportToTXT());
         csvBtn.addActionListener(e -> exportToCSV());
@@ -331,16 +331,23 @@ public class ReportPanel extends JPanel {
         double avgPerDay = currentPeriod.equals("MONTH") ?
                 total / LocalDate.now().lengthOfMonth() : total / getDaysInPeriod();
 
-        // Update labels
-        totalLabel.setText(String.format("Rp %.0fk", total / 1000));
+        // Update labels dengan format Rupiah full
+        totalLabel.setText(formatRupiah(total));
         transactionLabel.setText(String.valueOf(transactionCount));
         topCategoryLabel.setText(topCategory);
-        avgLabel.setText(String.format("Rp %.0fk", avgPerDay / 1000));
+        avgLabel.setText(formatRupiah(avgPerDay));
 
         // Update category breakdown
         if (total > 0) {
             updateCategoryBreakdown(categoryTotals, total);
         }
+    }
+
+    /**
+     * Format angka ke format Rupiah Indonesia
+     */
+    private String formatRupiah(double amount) {
+        return String.format("Rp %,.0f", amount).replace(",", ".");
     }
 
     private List<Expense> getExpensesByPeriod() {
