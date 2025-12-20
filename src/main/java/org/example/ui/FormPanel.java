@@ -12,6 +12,7 @@ import java.time.format.DateTimeParseException;
  * Form Panel - Halaman 3
  * Modul 6: GUI - JTextField, JComboBox, Input Validation
  * Modul 1: Exception Handling - try-catch
+ * FIXED: ComboBox dropdown color issue
  */
 public class FormPanel extends JPanel {
     private MainFrame mainFrame;
@@ -30,7 +31,7 @@ public class FormPanel extends JPanel {
     private boolean isEditMode = false;
     private int editingId = -1;
 
-    // Colors
+    // Colors - ORIGINAL
     private static final Color BG_COLOR = new Color(85, 66, 61);
     private static final Color PRIMARY = new Color(255, 192, 173);
     private static final Color TEXT = new Color(255, 243, 236);
@@ -102,18 +103,58 @@ public class FormPanel extends JPanel {
 
         // Category
         gbc.gridy = 2;
-        panel.add(createLabel("🏷️ Kategori *"), gbc);
+        panel.add(createLabel("🏷Kategori *"), gbc);
 
         gbc.gridy = 3;
         categoryCombo = new JComboBox<>(CATEGORIES);
         categoryCombo.setFont(new Font("Poppins", Font.PLAIN, 14));
         categoryCombo.setBackground(new Color(255, 243, 236, 25));
-        categoryCombo.setForeground(new Color(39, 28, 25)); // ← TEXT HITAM
-        categoryCombo.setPreferredSize(new Dimension(0, 45)); // ← TINGGI 45px (sama dengan TextField)
+        categoryCombo.setForeground(new Color(39, 28, 25)); // Text hitam
+        categoryCombo.setPreferredSize(new Dimension(0, 45));
         categoryCombo.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(PRIMARY, 2),
                 BorderFactory.createEmptyBorder(5, 15, 5, 15)
         ));
+
+        // FIXED: Custom renderer untuk dropdown - perbaiki warna hitam!
+        categoryCombo.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value,
+                                                          int index, boolean isSelected, boolean cellHasFocus) {
+                JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+                // Fix warna dropdown
+                if (isSelected) {
+                    label.setBackground(ACCENT); // Pink saat dipilih
+                    label.setForeground(new Color(39, 28, 25)); // Dark text
+                } else {
+                    // Background cream untuk item yang tidak dipilih (BUKAN HITAM!)
+                    label.setBackground(new Color(255, 243, 236)); // Cream
+                    label.setForeground(new Color(39, 28, 25)); // Dark text
+                }
+
+                label.setOpaque(true);
+                label.setBorder(BorderFactory.createEmptyBorder(8, 12, 8, 12));
+                label.setFont(new Font("Poppins", Font.PLAIN, 13));
+
+                return label;
+            }
+        });
+
+        // PENTING: Override warna popup list secara langsung
+        try {
+            Object child = categoryCombo.getAccessibleContext().getAccessibleChild(0);
+            if (child instanceof javax.swing.plaf.basic.ComboPopup) {
+                JList<?> popupList = ((javax.swing.plaf.basic.ComboPopup) child).getList();
+                popupList.setBackground(new Color(255, 243, 236)); // Cream background
+                popupList.setForeground(new Color(39, 28, 25)); // Dark text
+                popupList.setSelectionBackground(ACCENT); // Pink saat dipilih
+                popupList.setSelectionForeground(new Color(39, 28, 25)); // Dark text saat dipilih
+            }
+        } catch (Exception ex) {
+            // Ignore if can't access popup
+        }
+
         panel.add(categoryCombo, gbc);
 
         // Amount
@@ -121,7 +162,7 @@ public class FormPanel extends JPanel {
         panel.add(createLabel("💰 Jumlah (Rupiah) *"), gbc);
 
         gbc.gridy = 5;
-        amountField = createTextField("Masukkan nominal tanpa titik. Contoh: 50000");
+        amountField = createTextField(": 50000");
         panel.add(amountField, gbc);
 
         // Date
@@ -138,7 +179,7 @@ public class FormPanel extends JPanel {
         panel.add(createLabel("📌 Catatan Tambahan (Opsional)"), gbc);
 
         gbc.gridy = 9;
-        notesField = createTextField("Tambahkan keterangan jika diperlukan...");
+        notesField = createTextField("Tambahkan keterangan");
         panel.add(notesField, gbc);
 
         return panel;
@@ -345,13 +386,13 @@ public class FormPanel extends JPanel {
 
         categoryCombo.setSelectedIndex(0);
 
-        amountField.setText("Masukkan nominal tanpa titik. Contoh: 50000");
+        amountField.setText(": 50000");
         amountField.setForeground(new Color(255, 243, 236, 100));
 
         dateField.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         dateField.setForeground(TEXT);
 
-        notesField.setText("Tambahkan keterangan jika diperlukan...");
+        notesField.setText("Tambahkan keterangan");
         notesField.setForeground(new Color(255, 243, 236, 100));
     }
 }
