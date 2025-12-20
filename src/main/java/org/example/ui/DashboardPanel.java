@@ -176,9 +176,16 @@ public class DashboardPanel extends JPanel {
         double avgDay = manager.getAveragePerDay();
         double totalToday = manager.getTotalToday();
 
-        totalMonthLabel.setText(String.format("Rp %.0fk", totalMonth / 1000));
+        totalMonthLabel.setText(formatRupiah(totalMonth));
         totalTransactionLabel.setText(String.valueOf(totalTrans));
-        avgPerDayLabel.setText(String.format("Rp %.0fk", avgDay / 1000));
-        totalTodayLabel.setText(String.format("Rp %.0fk", totalToday / 1000));
+        avgPerDayLabel.setText(formatRupiah(avgDay));
+        totalTodayLabel.setText(formatRupiah(totalToday));
+    }
+
+    /**
+     * Format angka ke format Rupiah Indonesia
+     */
+    private String formatRupiah(double amount) {
+        return String.format("Rp %,.0f", amount).replace(",", ".");
     }
 }
