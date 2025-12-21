@@ -1,4 +1,12 @@
 id,description,category,amount,date,notes
-1,Makan di kampus,Makanan & Minuman,50000.0,2025-12-19,-
 2,gym,Kesehatan,67000.0,2025-12-10,-
 3,ngopi,Teknologi & Gadget,456000.0,2025-01-19,-
+4,Makan malam,Makanan & Minuman,30000.0,2025-12-16,nasi goreng
+5,Ojek online ke kampus,Transport & Bensin,15000.0,2025-12-18,Grab
+6,Langganan Canva,Teknologi & Gadget,59000.0,2025-12-05,Canva premium
+7,Membayar kos,Kebutuhan Rumah,1000000.0,2025-12-01,Kos 1 bulan
+8,Beli obat di apotek,Kesehatan,65000.0,2025-12-12,Obat anemia
+9,Beli Sepatu,Fashion & Pakaian,450000.0,2025-12-14,Beli di Onlineshop
+10,Beli mouse wireless,Teknologi & Gadget,150000.0,2025-12-11,Online
+11,Makan siang di kantin kampus,Makanan & Minuman,25000.0,2025-12-20,Warung pak budi
+12,Sabun mandi dan shampoo,Kebutuhan Rumah,85000.0,2025-12-18,Alfamart
