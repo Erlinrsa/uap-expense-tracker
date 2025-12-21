@@ -71,10 +71,6 @@ UAP/
     - Open folder project
     - Run → Start Debugging (F5)
 
-3. **NetBeans**:
-    - File → Open Project
-    - Klik kanan project → Run
-
 ##  Implementasi Modul
 
 ###  Modul 1: Program Correctness
